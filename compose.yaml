@@ -1,0 +1,48 @@
+services:
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ./front
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=production
+
+  qdrant:
+    container_name: qdrant
+    image: qdrant/qdrant:latest
+    restart: unless-stopped
+    environment:
+      # QDRANT__SERVICE__API_KEY: "${QDRANT_API_KEY}" 
+      QDRANT__SERVICE__TELEMETRY_DISABLED: true
+    ports:
+      - 6333:6333 # REST API
+      - 6334:6334 # gRPC API
+    expose:
+      - 6333
+      - 6334
+      - 6335
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  
+  # backend:
+  #   container_name: backend
+  #   build: ./back
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8000:8000
+  #   environment:
+  #     QDRANT_API_KEY:   QDRANT_API_KEY
+  #     MWS_API_KEY:      "${MWS_API_KEY}"
+  #     MWS_BASE_URL:     "${MWS_BASE_URL}"
+  #     OPENAI_API_KEY:   "${OPENAI_API_KEY}"
+  #     OPENAI_API_BASE:  "${OPENAI_API_BASE}"
+  #     LITELLM_PROVIDER: "${LITELLM_PROVIDER}"
+
+volumes:
+  qdrant_storage: {}
+
+
