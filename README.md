@@ -32,8 +32,12 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://git.truetecharena.ru/true-tech-hack-15/truetecharena1745056424-team-12681/zadacha-168.git
-cd zadacha-168
+git clone "git@github.com:LLM-MTS/devops.git"
+
+cd devops
+
+git clone "git@github.com:LLM-MTS/backend.git"
+git clone "git@github.com:LLM-MTS/frontend.git"
 ```
 
 ### 2. Запуск через Docker
@@ -41,20 +45,7 @@ cd zadacha-168
 ```bash
 docker-compose up --build
 ```
-запуск фронта в соседнем териминале после запуска бд
-```bash
-cd front
-npm install
-npm start
-```
 
-в соседнем териминале после запуска бд и фронта
-```bash
-python3.12 -m venv venv
-source venv/bin/activate
-pip install -r back/requirements.txt
-python back/src/main.py
-```
 Это поднимет следующие сервисы:
 
 - `backend` — FastAPI сервер
@@ -97,14 +88,15 @@ python back/src/main.py
 Переменные окружения задаются в `.env` файле:
 
 ```env
-MWS_API_KEY=sk-KNo006G2a48UVE3IxFlQEQ
-MWS_BASE_URL=https://api.gpt.mws.ru/v1
-
-OPENAI_API_KEY=sk-KNo006G2a48UVE3IxFlQEQ
-OPENAI_API_BASE=https://api.gpt.mws.ru/v1
-
 LITELLM_PROVIDER=openai
-QDRANT_API_KEY=QDRANT_API_KEY
+HUGGINGFACE_API_TOKEN=...
+
+GROQ_TOKEN=...
+
+QDRANT_URL=http://localhost:6333
+QDRANT_COLLECTION=knowledge_collection
+QDRANT_VECTOR_NAME=embedding
+QDRANT_TOP_K=3
 ```
 
 ---
@@ -114,11 +106,18 @@ QDRANT_API_KEY=QDRANT_API_KEY
 ```
 .
 ├── backend/
+│   ├── src/
+│   │   ├── agents/
+│   │   ├── embedding/
+│   │   ├── crew.py
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── README.md
+│   ├── requirements.txt
 ├── frontend/
-├── agents/
-├── qdrant/
-├── docker-compose.yml
 ├── .env
+├── .gitignore
+├── compose.yaml
 └── README.md
 ```
 
